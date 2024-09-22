@@ -3,13 +3,12 @@ sudo su
 apt-get -y update
 apt-get -y install nginx
 
-
 # Variables
 APP_DIR="/var/www/myapp"
 GIT_REPO="https://github.com/DSvidyutbhaskariitj/VCC_PROJECT.git"
 BRANCH="main"
 NGINX_CONF="/etc/nginx/sites-available/myapp/default"
-NGINX_ENABLED="/etc/nginx/sites-enabled/myapp"
+NGINX_ENABLED="/etc/nginx/sites-enabled"
 DOMAIN_NAME="example.com"
 
 # Step 1: Pull latest code from Git repository
@@ -38,10 +37,11 @@ echo "Building the application..."
 # Step 4: Set up Nginx configuration
 echo "Configuring Nginx..."
 
-sudo rm /etc/nginx/sites-enabled/default 
+rm -r /etc/nginx/sites-enabled/default
+
+mkdir /etc/nginx/sites-available/myapp 
 
 # Create the Nginx config file if it doesn't exist
-mkdir /etc/nginx/sites-available/myapp
 
 sudo tee $NGINX_CONF > /dev/null <<EOL
 server {
@@ -56,17 +56,11 @@ server {
     }
 }
 EOL
-else
-    echo "Nginx configuration already exists."
-fi
+
 
 # Step 5: Enable the Nginx configuration
-if [ ! -L "$NGINX_ENABLED" ]; then
-    echo "Enabling the Nginx configuration..."
-    sudo ln -s $NGINX_CONF $NGINX_ENABLED
-else
-    echo "Nginx configuration already enabled."
-fi
+echo "Enabling the Nginx configuration..."
+ln -s $NGINX_CONF $NGINX_ENABLED
 
 # Step 6: Test Nginx configuration
 echo "Testing Nginx configuration..."
