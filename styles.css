@@ -65,3 +65,11 @@ footer p {
     font-size: 1.2em;
     color: #7f8c8d;
 }
+
+.project-description{
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    color: rgb(53, 51, 60);
+}
